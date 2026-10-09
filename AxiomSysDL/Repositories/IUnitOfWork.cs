@@ -1,6 +1,6 @@
 ﻿namespace AxiomSysDL.Repositories
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork<T>
     {
         IRepository<T> GetRepository<T>() where T : class;
         int Commit();
