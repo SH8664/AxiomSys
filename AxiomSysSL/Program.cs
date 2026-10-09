@@ -1,7 +1,11 @@
 using AxiomSysBL.IServices.IAuthServices;
 using AxiomSysBL.Services.AuthServices;
 using AxiomSysDL.Models.SupplyChain;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +21,47 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+
+    options.TokenValidationParameters =
+        new TokenValidationParameters
+        {
+
+            ValidateIssuer = true,
+
+            ValidateAudience = true,
+
+            ValidateLifetime = true,
+
+            ValidateIssuerSigningKey = true,
+
+            ClockSkew = TimeSpan.Zero,
+
+
+            ValidIssuer =
+                builder.Configuration["jwt:issuer"],
+
+
+            ValidAudience =
+                builder.Configuration["jwt:audience"],
+
+
+            IssuerSigningKey =
+                new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(
+                        builder.Configuration["jwt:key"]!
+                    ))
+
+        };
+});
 
 var app = builder.Build();
 
