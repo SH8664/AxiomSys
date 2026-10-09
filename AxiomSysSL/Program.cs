@@ -1,3 +1,5 @@
+using AxiomSysBL.IServices.IAuthServices;
+using AxiomSysBL.Services.AuthServices;
 using AxiomSysDL.Models.SupplyChain;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,9 +9,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<SupplyChainContext>(o =>
     o.UseSqlServer(builder.Configuration.GetConnectionString("SupplyChain")));
 
+
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -17,10 +24,13 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
