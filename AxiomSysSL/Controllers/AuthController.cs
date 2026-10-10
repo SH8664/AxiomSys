@@ -25,15 +25,23 @@ public class AuthController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> Register(UserRegisterDto dto)
     {
-        await _authService.RegisterAsync(dto);
-        return Ok();
+        try
+        {
+            await _authService.RegisterAsync(dto);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login(UserLoginDto dto)
     {
-        var result = await _authService.LoginAsync(dto);
-        return Ok(result);
+        var token = await _authService.LoginAsync(dto);
+        if (token == null) return Unauthorized("Invalid email or password");
+        return Ok(token);
     }
 
 

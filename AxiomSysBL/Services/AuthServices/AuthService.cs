@@ -33,7 +33,12 @@ namespace AxiomSysBL.Services.AuthServices
 
                 var user = _mapper.Map<IdentityUser>(dto);
                 var result = await _userManager.CreateAsync(user, dto.Password);
-                await _roleManager.CreateAsync(new IdentityRole("User"));
+                if (!result.Succeeded)
+                    throw new Exception(string.Join("; ", result.Errors.Select(e => e.Description)));
+
+                if (!await _roleManager.RoleExistsAsync("User"))
+                    await _roleManager.CreateAsync(new IdentityRole("User"));
+
                 await _userManager.AddToRoleAsync(user, "User");
             }
             catch (Exception ex)
@@ -52,20 +57,10 @@ namespace AxiomSysBL.Services.AuthServices
             {
 
                 var user = await _userManager.FindByEmailAsync(dto.Email);
-
-                if (user == null)
-                {
-                    return "not found";
-                }
+                if (user == null) return null;
 
                 var isValid = await _userManager.CheckPasswordAsync(user, dto.Password);
-
-                if (isValid)
-                {
-                    return generateToken(user.Id);
-                }
-
-                return "not a correct password";
+                return isValid ? generateToken(user.Id) : null;
             }
             catch (Exception ex)
             {
