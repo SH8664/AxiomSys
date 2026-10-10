@@ -1,4 +1,6 @@
 ﻿using AxiomSysBL.IServices.IAuthServices;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AxiomSysSL.Controllers;
@@ -9,15 +11,30 @@ public class AuthController : ControllerBase
 {
 
     IAuthService _authService;
-
-    public AuthController(IAuthService authService)
+    private readonly UserManager<IdentityUser> _userManager;
+    public AuthController(IAuthService authService, UserManager<IdentityUser> userManager)
     {
         _authService = authService;
+        _userManager = userManager;
     }
 
-    [HttpGet]
-    public string GetToken(string userId)
+
+
+
+    [HttpPost("register")]
+    [AllowAnonymous]
+    public async Task<IActionResult> Register(UserRegisterDto dto)
     {
-        return _authService.generateToken(userId);
+        await _authService.RegisterAsync(dto);
+        return Ok();
     }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login(UserLoginDto dto)
+    {
+        var result = await _authService.LoginAsync(dto);
+        return Ok(result);
+    }
+
+
 }

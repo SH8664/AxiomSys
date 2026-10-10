@@ -1,7 +1,9 @@
 using AxiomSysBL.IServices.IAuthServices;
 using AxiomSysBL.Services.AuthServices;
 using AxiomSysDL.Models.SupplyChain;
+using AxiomSysSL.Mappings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -15,6 +17,7 @@ builder.Services.AddDbContext<SupplyChainContext>(o =>
 
 
 builder.Services.AddScoped<IAuthService, AuthService>();
+
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -62,6 +65,15 @@ builder.Services.AddAuthentication(options =>
 
         };
 });
+
+builder.Services.AddAutoMapper(cfg =>
+{
+    cfg.AddProfile<AuthProfile>();
+});
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<SupplyChainContext>()
+    .AddDefaultTokenProviders();
+
 
 var app = builder.Build();
 
