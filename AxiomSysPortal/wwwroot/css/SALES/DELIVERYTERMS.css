@@ -1,0 +1,72 @@
+﻿
+.term-modal {
+    border: 0;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 1rem 3rem rgba(0,0,0,.2);
+}
+
+.term-modal .modal-header {
+    background: linear-gradient(135deg, #0d6efd, #0a58ca);
+    color: #fff;
+    border: 0;
+    padding: 1rem 1.5rem;
+}
+
+    .term-modal .modal-header.edit-mode {
+        background: linear-gradient(135deg, #ffc107, #e0a800);
+        color: #212529;
+    }
+
+.term-modal .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+.term-modal .modal-header.edit-mode .btn-close {
+    filter: none;
+}
+
+.term-modal .modal-body {
+    padding: 1.5rem;
+    background: #f8f9fa;
+}
+
+.term-modal .modal-footer {
+    border: 0;
+    background: #f8f9fa;
+    padding: 0 1.5rem 1.25rem;
+}
+
+.modal-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: rgba(255,255,255,.25);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.term-modal .form-control {
+    border-radius: .6rem;
+}
+
+    .term-modal .form-control:focus {
+        box-shadow: 0 0 0 .2rem rgba(13,110,253,.15);
+    }
+
+.active-box {
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: .6rem;
+    padding: .85rem 1rem;
+}
+
+.active-box .form-check-input {
+    width: 2.75em;
+    height: 1.4em;
+    cursor: pointer;
+}
+
