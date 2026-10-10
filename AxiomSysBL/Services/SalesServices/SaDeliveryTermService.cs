@@ -17,17 +17,24 @@ namespace AxiomSysBL.Services.SalesServices
 
         }
 
-        public List<SaDeliveryTermModel> GetSaDeliveryTerms()
+        public ResponseModel GetSaDeliveryTerms()
         {
             var saDeliveries = _uowSC.GetRepository<SaDeliveryTerm>().GetAll().ToList();
-            return saDeliveries.Select(x => new SaDeliveryTermModel
+
+            return new ResponseModel
             {
-                Code = x.Code,
-                SName = x.SName,
-                BName = x.BName,
-                Days = x.Days,
-                Active = x.ActiveFlag != 0
-            }).ToList();
+                status = true,
+                data = saDeliveries.Select(x => new SaDeliveryTermModel
+                {
+                    Code = x.Code,
+                    SName = x.SName,
+                    BName = x.BName,
+                    Days = x.Days,
+                    Active = x.ActiveFlag != 0
+                }).ToList(),
+                messageEn = "Data retrtrieved successfully",
+                messageAr = "تم ايجاد الداتا بنجاح"
+            };
         }
 
         public ResponseModel GetSaDeliveryTermByCode(short code)
