@@ -10,11 +10,11 @@ namespace AxiomSysBL.Services.SalesServices
     {
         IUnitOfWork<SupplyChainContext> _uowSC;
         ISharedService _sharedService;
-
         public SaDeliveryTermService(IUnitOfWork<SupplyChainContext> uowSC, ISharedService sharedService)
         {
             _uowSC = uowSC;
             _sharedService = sharedService;
+
         }
 
         public List<SaDeliveryTermModel> GetSaDeliveryTerms()
@@ -64,11 +64,14 @@ namespace AxiomSysBL.Services.SalesServices
             }
         }
 
-        public ResponseModel AddSaDeliveryTerm(SaDeliveryTermModel model)
+        public ResponseModel AddSaDeliveryTerm(SaDeliveryTermModel model, string userId)
         {
             try
             {
                 var saDelivery = _uowSC.GetRepository<SaDeliveryTerm>().Find(model.Code);
+
+
+
                 if (saDelivery != null)
                     return new ResponseModel
                     {
@@ -85,6 +88,9 @@ namespace AxiomSysBL.Services.SalesServices
                         BName = model.BName,
                         Days = model.Days,
                         ActiveFlag = model.Active == true ? (byte)1 : (byte)0,
+                        EntryUser = userId,
+                        EntryDate = DateTime.Now
+
                     };
                     _uowSC.GetRepository<SaDeliveryTerm>().Add(newSaDelivery);
                     _uowSC.Commit();
@@ -102,7 +108,7 @@ namespace AxiomSysBL.Services.SalesServices
             }
         }
 
-        public ResponseModel UpdateSaDeliveryTerm(SaDeliveryTermModel model)
+        public ResponseModel UpdateSaDeliveryTerm(SaDeliveryTermModel model, string userId)
         {
             try
             {
@@ -121,7 +127,7 @@ namespace AxiomSysBL.Services.SalesServices
                 saDelivery.SName = model.SName ?? saDelivery.SName;
                 saDelivery.ActiveFlag = model.Active == true ? (byte)1 : (byte)0;
                 saDelivery.ChangeDate = DateTime.Now;
-                saDelivery.ChangeUser = 1; // TODO :: Replace with actual user ID
+                saDelivery.ChangeUser = userId;
                 saDelivery.Days = model.Days ?? saDelivery.Days;
 
                 _uowSC.GetRepository<SaDeliveryTerm>().Update(saDelivery);
@@ -168,5 +174,6 @@ namespace AxiomSysBL.Services.SalesServices
                 return _sharedService.HandleException(ex);
             }
         }
+
     }
 }

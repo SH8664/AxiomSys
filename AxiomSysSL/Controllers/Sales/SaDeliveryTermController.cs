@@ -14,10 +14,12 @@ namespace AxiomSysSL.Controllers.Sales
     {
         ISaDeliveryTermService _saDeliveryTermService;
         UserManager<IdentityUser> _userManager;
+
         public SaDeliveryTermController(ISaDeliveryTermService saDeliveryTermService, UserManager<IdentityUser> userManager)
         {
             _saDeliveryTermService = saDeliveryTermService;
             _userManager = userManager;
+
         }
 
         [HttpGet("GetAllSaDeliveryTerms")]
@@ -30,14 +32,22 @@ namespace AxiomSysSL.Controllers.Sales
         [HttpPost("AddSaDeliveryTerm")]
         public IActionResult AddSaDeliveryTerm(SaDeliveryTermModel saDeliveryTermDto)
         {
-            var result = _saDeliveryTermService.AddSaDeliveryTerm(saDeliveryTermDto);
+            if (!TryGetCurrentUserId(out var userId))
+            {
+                return Unauthorized();
+            }
+            var result = _saDeliveryTermService.AddSaDeliveryTerm(saDeliveryTermDto, userId!);
             return Ok(result);
         }
 
         [HttpPost("UpdateSaDeliveryTerm")]
         public IActionResult UpdateSaDeliveryTerm(SaDeliveryTermModel saDeliveryTermDto)
         {
-            var result = _saDeliveryTermService.UpdateSaDeliveryTerm(saDeliveryTermDto);
+            if (!TryGetCurrentUserId(out var userId))
+            {
+                return Unauthorized();
+            }
+            var result = _saDeliveryTermService.UpdateSaDeliveryTerm(saDeliveryTermDto, userId!);
             return Ok(result);
         }
 
@@ -54,7 +64,11 @@ namespace AxiomSysSL.Controllers.Sales
             var result = _saDeliveryTermService.DeleteSaDeliveryTerm(code);
             return Ok(result);
         }
-
+        private bool TryGetCurrentUserId(out string? userId)
+        {
+            userId = _userManager.GetUserId(User);
+            return userId != null;
+        }
 
     }
 }

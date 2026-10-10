@@ -24,13 +24,13 @@ namespace AxiomSysDL.Models.SupplyChain
         public byte? ActiveFlag { get; set; }
 
         [Column("ENTRY_USER")]
-        public int EntryUser { get; set; }
+        public string EntryUser { get; set; }
 
         [Column("ENTRY_DATE")]
         public DateTime EntryDate { get; set; }
 
         [Column("CHANGE_USER")]
-        public int? ChangeUser { get; set; }
+        public string? ChangeUser { get; set; }
 
         [Column("CHANGE_DATE")]
         public DateTime? ChangeDate { get; set; }

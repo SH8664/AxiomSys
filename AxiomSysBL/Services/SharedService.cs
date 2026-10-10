@@ -11,7 +11,7 @@ namespace AxiomSysBL.Services
                 status = false,
                 data = null,
                 messageAr = "حدث خطأ أثناء معالجة الطلب.",
-                messageEn = "An error occurred while processing the request."
+                messageEn = "An error occurred while processing the request." //+ " Error: " + ex.Message
             };
         }
 

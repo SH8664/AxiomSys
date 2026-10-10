@@ -22,10 +22,8 @@ builder.Services.AddDbContext<SupplyChainContext>(o =>
 
 
 builder.Services.AddScoped<IAuthService, AuthService>();
-
 builder.Services.AddScoped<IUnitOfWork<SupplyChainContext>, UnitOfWork<SupplyChainContext>>();
 builder.Services.AddScoped<ISharedService, SharedService>();
-
 builder.Services.AddScoped<ISaDeliveryTermService, SaDeliveryTermService>();
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
