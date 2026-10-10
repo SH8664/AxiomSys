@@ -1,6 +1,11 @@
+using AxiomSysBL.IServices;
 using AxiomSysBL.IServices.IAuthServices;
+using AxiomSysBL.IServices.ISalesServices;
+using AxiomSysBL.Services;
 using AxiomSysBL.Services.AuthServices;
+using AxiomSysBL.Services.SalesServices;
 using AxiomSysDL.Models.SupplyChain;
+using AxiomSysDL.Repositories;
 using AxiomSysSL.Mappings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -18,6 +23,10 @@ builder.Services.AddDbContext<SupplyChainContext>(o =>
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 
+builder.Services.AddScoped<IUnitOfWork<SupplyChainContext>, UnitOfWork<SupplyChainContext>>();
+builder.Services.AddScoped<ISharedService, SharedService>();
+
+builder.Services.AddScoped<ISaDeliveryTermService, SaDeliveryTermService>();
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -25,11 +34,14 @@ builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<SupplyChainContext>()
+    .AddDefaultTokenProviders();
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
 {
@@ -70,9 +82,6 @@ builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile<AuthProfile>();
 });
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<SupplyChainContext>()
-    .AddDefaultTokenProviders();
 
 
 var app = builder.Build();

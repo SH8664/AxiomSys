@@ -8,6 +8,7 @@ namespace AxiomSysDL.Models.SupplyChain
     {
         [Key]
         [Column("CODE")]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public short Code { get; set; }
 
         [Column("S_NAME")]

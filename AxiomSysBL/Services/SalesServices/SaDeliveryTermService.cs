@@ -68,7 +68,7 @@ namespace AxiomSysBL.Services.SalesServices
         {
             try
             {
-                var saDelivery = GetSaDeliveryTermByCode(model.Code);
+                var saDelivery = _uowSC.GetRepository<SaDeliveryTerm>().Find(model.Code);
                 if (saDelivery != null)
                     return new ResponseModel
                     {
@@ -116,17 +116,15 @@ namespace AxiomSysBL.Services.SalesServices
                     };
 
 
-                var updatedSaDelivery = new SaDeliveryTerm
-                {
-                    Code = model.Code,
-                    BName = model.BName ?? saDelivery.BName,
-                    SName = model.SName ?? saDelivery.SName,
-                    ActiveFlag = model.Active == true ? (byte)1 : (byte)0,
-                    ChangeDate = DateTime.Now,
-                    ChangeUser = 1, // TODO :: Replace with actual user ID
-                    Days = model.Days ?? saDelivery.Days
-                };
-                _uowSC.GetRepository<SaDeliveryTerm>().Update(updatedSaDelivery);
+                saDelivery.Code = model.Code;
+                saDelivery.BName = model.BName ?? saDelivery.BName;
+                saDelivery.SName = model.SName ?? saDelivery.SName;
+                saDelivery.ActiveFlag = model.Active == true ? (byte)1 : (byte)0;
+                saDelivery.ChangeDate = DateTime.Now;
+                saDelivery.ChangeUser = 1; // TODO :: Replace with actual user ID
+                saDelivery.Days = model.Days ?? saDelivery.Days;
+
+                _uowSC.GetRepository<SaDeliveryTerm>().Update(saDelivery);
                 _uowSC.Commit();
                 return new ResponseModel
                 {
