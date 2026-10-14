@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using AxiomSysBL.IServices.IAuthServices;
+using AxiomSysBL.Models.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-
 namespace AxiomSysBL.Services.AuthServices
 {
     public class AuthService : IAuthService

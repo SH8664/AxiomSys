@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using AxiomSysBL.IServices.IAuthServices;
+using AxiomSysBL.Models.Auth;
 using Microsoft.AspNetCore.Identity;
-
 namespace AxiomSysSL.Mappings
 {
     public class AuthProfile : Profile
