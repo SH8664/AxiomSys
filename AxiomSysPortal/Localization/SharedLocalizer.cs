@@ -42,8 +42,8 @@ namespace AxiomSysPortal.Localization
             ["34"] = ("Registration failed", "فشل التسجيل"),
             ["35"] = ("Account created. Please log in.", "تم إنشاء الحساب. الرجاء تسجيل الدخول."),
             ["36"] = ("Invalid email or password", "البريد الإلكتروني أو كلمة المرور غير صحيحة"),
-            ["37"] = ("Login failed", "فشل تسجيل الدخول")
-
+            ["37"] = ("Login failed", "فشل تسجيل الدخول"),
+            ["38"] = ("Term added successfully!", "تمت إضافة الشرط بنجاح!")
         };
 
         public string this[string key]

@@ -32,10 +32,8 @@ namespace AxiomSysSL.Controllers.Sales
         [HttpPost("AddSaDeliveryTerm")]
         public IActionResult AddSaDeliveryTerm(SaDeliveryTermModel saDeliveryTermDto)
         {
-            if (!TryGetCurrentUserId(out var userId))
-            {
-                return Unauthorized();
-            }
+            if (!TryGetCurrentUserId(out var userId)) return Unauthorized();
+
             var result = _saDeliveryTermService.AddSaDeliveryTerm(saDeliveryTermDto, userId!);
             return Ok(result);
         }
@@ -43,10 +41,8 @@ namespace AxiomSysSL.Controllers.Sales
         [HttpPost("UpdateSaDeliveryTerm")]
         public IActionResult UpdateSaDeliveryTerm(SaDeliveryTermModel saDeliveryTermDto)
         {
-            if (!TryGetCurrentUserId(out var userId))
-            {
-                return Unauthorized();
-            }
+            if (!TryGetCurrentUserId(out var userId)) return Unauthorized();
+
             var result = _saDeliveryTermService.UpdateSaDeliveryTerm(saDeliveryTermDto, userId!);
             return Ok(result);
         }

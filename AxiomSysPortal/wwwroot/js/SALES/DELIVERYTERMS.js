@@ -89,7 +89,32 @@ async function saveTerm(e) {
     const json = await res.json();
     if (json.status) {
       modal.hide();
-      location.reload();
+      // location.reload();
+      const table = document.getElementById("termsTable");
+      const tbody = table.querySelector("tbody");
+      tbody.innerHTML += `<tr>
+        <td>${payload.code}</td>
+        <td>${payload.sName}</td>
+        <td>${payload.bName}</td>
+        <td>${payload.days}</td>
+        ${
+          isAr
+            ? `<td>${payload.active ? "نعم" : "لا"}</td>`
+            : `<td>${payload.active ? "Yes" : "No"}</td>`
+        }
+        <td class="text-end">
+          <button class="btn btn-sm btn-warning me-1" onclick="openEditModal(${payload.code})">${isAr ? "تعديل" : "Edit"}</button>
+          <button class="btn btn-sm btn-danger" onclick="deleteTerm(${payload.code})">${isAr ? "حذف" : "Delete"}</button>
+        </td>
+      </tr>`;
+
+      const toastElement = document.getElementById("successToast");
+
+      const toast = new bootstrap.Toast(toastElement, {
+        delay: 3000,
+      });
+
+      toast.show();
     } else showError(isAr ? json.messageAr : json.messageEn || "Save failed");
   } catch {
     showError("Network error");
