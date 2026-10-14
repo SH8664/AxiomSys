@@ -1,0 +1,42 @@
+﻿@page 
+@model LoginModel
+@{ ViewData["Title"] = "Login"; }
+
+<div class="container" style="max-width:420px; margin-top:60px;">
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+            <h3 class="text-center mb-4">@SharedLocalizer["15"]</h3>
+
+            @if (!string.IsNullOrEmpty(Model.Success))
+            {
+                <div class="alert alert-success py-2">@Model.Success</div>
+            }
+
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Input.Email" class="form-label">@SharedLocalizer["16"]</label>
+                    <input asp-for="Input.Email" class="form-control" autocomplete="username" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Input.Password" class="form-label">@SharedLocalizer["17"]</label>
+                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">@SharedLocalizer["15"]</button>
+            </form>
+
+            <p class="text-center mt-3 mb-0">
+                @SharedLocalizer["23"]<a href="/Account/Register">@SharedLocalizer["22"]</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
