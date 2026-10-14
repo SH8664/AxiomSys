@@ -37,7 +37,13 @@ namespace AxiomSysPortal.Pages.Localization
             ["28"] = ("Learn about", "تعرف على"),
             ["29"] = ("building Web apps with ASP.NET Core", "بناء تطبيقات الويب باستخدام ASP.NET Core"),
             ["30"] = ("Privacy Policy", "سياسة الخصوصية"),
-            ["31"] = ("Sales Delivery Terms", "شروط تسليم المبيعات")
+            ["31"] = ("Sales Delivery Terms", "شروط تسليم المبيعات"),
+            ["33"] = ("Email", "البريد الإلكتروني"),
+            ["34"] = ("Registration failed", "فشل التسجيل"),
+            ["35"] = ("Account created. Please log in.", "تم إنشاء الحساب. الرجاء تسجيل الدخول."),
+            ["36"] = ("Invalid email or password", "البريد الإلكتروني أو كلمة المرور غير صحيحة"),
+            ["37"] = ("Login failed", "فشل تسجيل الدخول")
+
         };
 
         public string this[string key]

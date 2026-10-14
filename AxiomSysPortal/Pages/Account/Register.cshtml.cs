@@ -3,14 +3,18 @@ using AxiomSysPortal.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
-
+using AxiomSysPortal.Pages.Localization;
 namespace AxiomSysPortal.Pages.Account
 {
     public class RegisterModel : PageModel
     {
         private readonly AuthApiService _auth;
-        public RegisterModel(AuthApiService auth) => _auth = auth;
-
+        private readonly ISharedLocalizer Localizer;
+        public RegisterModel(AuthApiService auth, ISharedLocalizer localizer)
+        {
+            _auth = auth;
+            Localizer = localizer;
+        }
         [BindProperty] public UserRegisterDto Input { get; set; } = new();
 
 
@@ -23,11 +27,11 @@ namespace AxiomSysPortal.Pages.Account
             var (ok, error) = await _auth.RegisterAsync(Input);
             if (ok)
             {
-                TempData["Success"] = "Account created. Please log in.";
+                TempData["Success"] = Localizer["35"];
                 return RedirectToPage("Login");
             }
 
-            ModelState.AddModelError("", error ?? "Registration failed");
+            ModelState.AddModelError("", error ?? Localizer["34"]);
             return Page();
         }
 

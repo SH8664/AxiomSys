@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
+using AxiomSysPortal.Pages.Localization;
 
 namespace AxiomSysPortal.Pages.Account
 {
@@ -13,7 +14,9 @@ namespace AxiomSysPortal.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly AuthApiService _auth;
-        public LoginModel(AuthApiService auth) => _auth = auth;
+        public ISharedLocalizer Localizer { get; }
+        public LoginModel(AuthApiService auth, ISharedLocalizer localizer) { Localizer = localizer; _auth = auth; }
+
 
         [BindProperty] public UserLoginDto Input { get; set; } = new();
         [TempData] public string? Success { get; set; }
@@ -27,14 +30,14 @@ namespace AxiomSysPortal.Pages.Account
             var (token, error) = await _auth.LoginAsync(Input);
             if (token == null)
             {
-                ModelState.AddModelError("", error ?? "Login failed");
+                ModelState.AddModelError("", error ?? Localizer["37"]);
                 return Page();
             }
 
             var identity = new ClaimsIdentity(new[]
             {
             new Claim(ClaimTypes.Name, Input.Email),
-            new Claim("access_token", token)          // token saved inside the cookie
+            new Claim("access_token", token)          
         }, CookieAuthenticationDefaults.AuthenticationScheme);
 
             await HttpContext.SignInAsync(
