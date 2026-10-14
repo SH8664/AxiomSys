@@ -1,4 +1,4 @@
-﻿namespace AxiomSysPortal.Pages.Localization
+﻿namespace AxiomSysPortal.Localization
 {
     public interface ISharedLocalizer
     {

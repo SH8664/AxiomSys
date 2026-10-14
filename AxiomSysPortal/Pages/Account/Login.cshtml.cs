@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
-using AxiomSysPortal.Pages.Localization;
+using AxiomSysPortal.Localization;
 
 namespace AxiomSysPortal.Pages.Account
 {
@@ -22,6 +22,7 @@ namespace AxiomSysPortal.Pages.Account
         [TempData] public string? Success { get; set; }
 
         public void OnGet() { }
+
 
         public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
         {

@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace AxiomSysPortal.Pages.Localization
+namespace AxiomSysPortal.Localization
 {
     public class SharedLocalizer : ISharedLocalizer
     {

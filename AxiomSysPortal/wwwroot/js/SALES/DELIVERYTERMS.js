@@ -2,6 +2,8 @@ const modalEl = document.getElementById("upsertModal");
 const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
 const form = document.getElementById("termForm");
 const formAlert = document.getElementById("formAlert");
+const isAr = document.getElementById("culture").value === "ar";
+
 const token = () =>
   document.querySelector('#termForm input[name="__RequestVerificationToken"]')
     .value;
@@ -28,18 +30,14 @@ function openAddModal() {
   document.getElementById("formActive").checked = true;
   setMode(false);
   modal.show();
-  modalEl.addEventListener(
-    "shown.bs.modal",
-    () => document.getElementById("formSName").focus(),
-    { once: true },
-  );
 }
 
 async function openEditModal(code) {
   const res = await fetch(`?handler=Term&code=${code}`);
   const json = await res.json();
   if (!json.status || !json.data) {
-    alert(json.messageEn || "Not found");
+    if (isAr) alert(json.messageAr || "لم يتم العثور على العنصر");
+    else alert(json.messageEn || "Not found");
     return;
   }
 
@@ -79,7 +77,6 @@ async function saveTerm(e) {
   };
   let action =
     document.getElementById("formMode").value === "true" ? "Create" : "Update";
-  const isAr = document.getElementById('culture').value === 'ar';
   try {
     const res = await fetch(`?handler=${action}`, {
       method: "POST",
@@ -93,7 +90,7 @@ async function saveTerm(e) {
     if (json.status) {
       modal.hide();
       location.reload();
-    } else showError(isAr ? json.messageAr :json.messageEn || "Save failed");
+    } else showError(isAr ? json.messageAr : json.messageEn || "Save failed");
   } catch {
     showError("Network error");
   } finally {
@@ -103,12 +100,17 @@ async function saveTerm(e) {
 }
 
 async function deleteTerm(code) {
-  if (!confirm("Delete this item?")) return;
+  if (isAr) {
+    if (!confirm("هل أنت متأكد من الحذف")) return;
+  } else {
+    if (!confirm("Delete this item?")) return;
+  }
   const res = await fetch(`?handler=Delete&code=${code}`, {
     method: "POST",
     headers: { RequestVerificationToken: token() },
   });
   const json = await res.json();
   if (json.status) location.reload();
+  else if (isAr) alert(json.messageAr || "حدث خطأ فى الحذف");
   else alert(json.messageEn || "Delete failed");
 }

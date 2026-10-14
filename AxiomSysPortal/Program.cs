@@ -1,5 +1,5 @@
 using AxiomSysPortal.Conventions;
-using AxiomSysPortal.Pages.Localization;
+using AxiomSysPortal.Localization;
 using AxiomSysPortal.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
