@@ -43,12 +43,7 @@ namespace AxiomSysBL.Services.SalesServices
             {
                 var saDelivery = _uowSC.GetRepository<SaDeliveryTerm>().Find(code);
                 if (saDelivery == null)
-                    return new ResponseModel
-                    {
-                        status = false,
-                        messageAr = "لم يتم العثور على شرط التسليم",
-                        messageEn = "Delivery term not found"
-                    };
+                    return _sharedService.HandleException(new Exception(), "لم يتم العثور على شرط التسليم", "Delivery term not found");
                 else
                     return new ResponseModel
                     {
@@ -67,7 +62,7 @@ namespace AxiomSysBL.Services.SalesServices
             }
             catch (Exception ex)
             {
-                return _sharedService.HandleException(ex);
+                return _sharedService.HandleException(ex, null, null);
             }
         }
 
@@ -80,12 +75,7 @@ namespace AxiomSysBL.Services.SalesServices
 
 
                 if (saDelivery != null)
-                    return new ResponseModel
-                    {
-                        status = false,
-                        messageAr = "شرط التسليم موجود بالفعل",
-                        messageEn = "Delivery term already exists"
-                    };
+                    return _sharedService.HandleException(new Exception(), "شرط التسليم موجود بالفعل", "Delivery term already exists");
                 else
                 {
                     var newSaDelivery = new SaDeliveryTerm
@@ -111,7 +101,7 @@ namespace AxiomSysBL.Services.SalesServices
             }
             catch (Exception ex)
             {
-                return _sharedService.HandleException(ex);
+                return _sharedService.HandleException(ex, null, null);
             }
         }
 
@@ -121,13 +111,7 @@ namespace AxiomSysBL.Services.SalesServices
             {
                 var saDelivery = _uowSC.GetRepository<SaDeliveryTerm>().Find(model.Code);
                 if (saDelivery == null)
-                    return new ResponseModel
-                    {
-                        status = false,
-                        messageAr = "لم يتم العثور على شرط التسليم",
-                        messageEn = "Delivery term not found"
-                    };
-
+                    return _sharedService.HandleException(new Exception(), "لم يتم العثور على شرط التسليم", "Delivery term not found");
 
                 saDelivery.Code = model.Code;
                 saDelivery.BName = model.BName ?? saDelivery.BName;
@@ -149,7 +133,7 @@ namespace AxiomSysBL.Services.SalesServices
             }
             catch (Exception ex)
             {
-                return _sharedService.HandleException(ex);
+                return _sharedService.HandleException(ex, null, null);
             }
         }
 
@@ -159,12 +143,9 @@ namespace AxiomSysBL.Services.SalesServices
             {
                 var saDelivery = _uowSC.GetRepository<SaDeliveryTerm>().Find(code);
                 if (saDelivery == null)
-                    return new ResponseModel
-                    {
-                        status = false,
-                        messageAr = "لم يتم العثور على شرط التسليم",
-                        messageEn = "Delivery term not found"
-                    };
+
+
+                    return _sharedService.HandleException(new Exception(), "لم يتم العثور على شرط التسليم", "Delivery term not found");
 
                 _uowSC.GetRepository<SaDeliveryTerm>().Remove(saDelivery);
                 _uowSC.Commit();
@@ -178,7 +159,7 @@ namespace AxiomSysBL.Services.SalesServices
             }
             catch (Exception ex)
             {
-                return _sharedService.HandleException(ex);
+                return _sharedService.HandleException(ex, null, null);
             }
         }
 

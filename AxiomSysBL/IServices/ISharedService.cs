@@ -4,6 +4,6 @@ namespace AxiomSysBL.IServices
 {
     public interface ISharedService
     {
-        ResponseModel HandleException(Exception ex);
+        ResponseModel HandleException(Exception ex, string? msgAr, string? msgEn);
     }
 }
